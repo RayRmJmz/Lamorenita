@@ -33,6 +33,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddScoped<IDirectionService, DirectionService>();
 builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<IPhoneNumberService, PhoneNumberService>();
 
 builder.Services.AddControllersWithViews();
 

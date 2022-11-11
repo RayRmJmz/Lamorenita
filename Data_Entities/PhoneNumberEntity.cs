@@ -10,6 +10,7 @@ namespace Lamorenita.Data_Entities
         [Required, MaxLength(10)]
         public string PhoneNumber { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
+        [Required]
         public int? ContactId { get; set; }
         [ForeignKey("ContactId")]
         public virtual ContactEntity? Contact { get; set; }

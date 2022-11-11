@@ -93,6 +93,17 @@ namespace Lamorenita
                 .ForMember(dest => dest.Colony, opt => opt.MapFrom(src => src.Colonia))
                 .ForMember(dest => dest.Municipality, opt => opt.MapFrom(src => src.Municipio));
 
+
+            //Phone number
+            CreateMap<PhoneNumberEntity, PhoneNumberViewModel>()
+                .ForMember(dest => dest.NumeroTelefono, opt => opt.MapFrom(src => src.PhoneNumber))
+                .ForMember(dest => dest.ContactoId, opt => opt.MapFrom(src => src.ContactId))
+                .ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => src.Created));
+
+            CreateMap<PhoneNumberCreateModel, PhoneNumberEntity>()
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.NumeroTelefono))
+                .ForMember(dest => dest.ContactId, opt => opt.MapFrom(src => src.ContactoId));
+
         }
     }
 }

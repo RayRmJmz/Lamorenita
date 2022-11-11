@@ -1,4 +1,6 @@
-﻿namespace Lamorenita.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Lamorenita.Models
 {
     public class DirectionViewModel
     {
@@ -12,10 +14,14 @@
     }
 
     public class DirectionCreateModel
-    { 
+    {
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public string Calle { get; set; }
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public string Numero { get; set; }
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public string Colonia { get; set; }
+        [Required(ErrorMessage = "El campo {0} es requerido")]
         public string Municipio { get; set; }
     }
 }

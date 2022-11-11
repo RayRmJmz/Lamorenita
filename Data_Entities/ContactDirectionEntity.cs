@@ -7,6 +7,7 @@ namespace Lamorenita.Data_Entities
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public int? ContactId { get; set; }
         [ForeignKey("ContactId")]
         public virtual ContactEntity? Contact { get; set; }
