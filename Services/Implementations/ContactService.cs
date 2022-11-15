@@ -28,5 +28,39 @@ namespace Lamorenita.Services.Implementations
         {
             return _mapperService.Map<IEnumerable<ContactViewModel>>(await _dbContextService.Contact.ToListAsync());
         }
+
+        public async Task<ContactViewModel> GetContactByIdAsync(int contactId)
+        {
+            ContactEntity conctact = await _dbContextService.Contact.FindAsync(contactId);
+            return _mapperService.Map<ContactViewModel>(conctact);
+        }
+
+        public async Task<ContactViewModel> PutContactAsync(int contactId, ContactCreateModel requestModel)
+        {
+            ContactEntity contact = await _dbContextService.Contact.FindAsync(contactId);
+
+            if (contactId == null)
+            {
+                throw new ArgumentNullException(nameof(contactId));
+            }
+
+            _mapperService.Map(requestModel, contact);
+            await _dbContextService.SaveChangesAsync();
+            return _mapperService.Map<ContactViewModel>(contact);
+
+        }
+        public async Task DeleteContact(int contactId)
+        {
+            ContactEntity contact = await _dbContextService.Contact.FindAsync(contactId);
+
+            if (contactId == null)
+            {
+                throw new ArgumentNullException(nameof(contactId));
+            }
+
+            _dbContextService.Contact.Remove(contact);
+            await _dbContextService.SaveChangesAsync();
+
+        }
     }
 }

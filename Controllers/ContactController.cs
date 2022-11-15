@@ -1,5 +1,7 @@
-﻿using Lamorenita.Models;
+﻿using Lamorenita.Migrations;
+using Lamorenita.Models;
 using Lamorenita.Services;
+using Lamorenita.Services.Implementations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lamorenita.Controllers
@@ -26,5 +28,26 @@ namespace Lamorenita.Controllers
         {
             return StatusCode(200, await _contactService.GetAllContactAsync());
         }
+
+        [HttpGet("{contactId}")]
+        public async Task<IActionResult> GetUserById(int contactId)
+        {
+            return StatusCode(200, await _contactService.GetContactByIdAsync(contactId));
+        }
+
+
+        [HttpPut("{conctactId}")]
+        public async Task<IActionResult> PutContactAsync([FromBody] ContactCreateModel requestModel, int conctactId)
+        {
+            return StatusCode(200, await _contactService.PutContactAsync(conctactId, requestModel));
+        }
+
+        [HttpDelete("{conctactId}")]
+        public async Task<IActionResult> DeleteContact(int conctactId)
+        {
+           await _contactService.DeleteContact(conctactId);
+            return StatusCode(200);
+        }
+
     }
 }

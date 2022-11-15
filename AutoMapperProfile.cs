@@ -29,6 +29,12 @@ namespace Lamorenita
                 .ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => src.Created))
                 .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => src.Active));
 
+            CreateMap<UserUpdateModel, UserEntity>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Usuario))
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Nombre))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.PrimerApellido))
+                .ForMember(dest => dest.SecondLastName, opt => opt.MapFrom(src => src.SegundoApellido));
+
             CreateMap<UserCreateModel, UserEntity>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Usuario))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Nombre))
@@ -65,7 +71,8 @@ namespace Lamorenita
             CreateMap<ContactCreateModel, ContactEntity>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Nombre))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.PrimerApellido))
-                .ForMember(dest => dest.SecondLastName, opt => opt.MapFrom(src => src.SegundoApellido));
+                .ForMember(dest => dest.SecondLastName, opt => opt.MapFrom(src => src.SegundoApellido))
+                .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.activo));
 
             //Store
             CreateMap<StoreEntity, StoreViewModel>()

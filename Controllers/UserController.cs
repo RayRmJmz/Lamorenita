@@ -24,7 +24,32 @@ namespace Lamorenita.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return StatusCode(200, await _userService.getAllUsersAsync());
+            return StatusCode(200, await _userService.GetAllUsersAsync());
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserById(int userId)
+        {
+            return StatusCode(200, await _userService.GetUserByIdAsync(userId));
+        }
+
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> PutUserById([FromBody] UserUpdateModel requestModel, int userId)
+        {
+            return StatusCode(200, await _userService.PutUserAsync(userId, requestModel));
+        }
+
+        [HttpPut("updatePassword/{userId}")]
+        public async Task<IActionResult> PutUserPasswordById([FromBody] UserUpdatePasswordModel requestModel, int userId)
+        {
+            return StatusCode(200, await _userService.PutUserPasswordAsync(userId, requestModel));
+        }
+
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteUser(int userId)
+        {
+            await _userService.DeleteUser(userId);
+            return StatusCode(200);
         }
     }
 }
