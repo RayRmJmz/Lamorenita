@@ -1,12 +1,19 @@
-using AutoMapper;
 using Lamorenita;
 using Lamorenita.Data_Contexts;
-using Lamorenita.Services;
-using Lamorenita.Services.Implementations;
+using Lamorenita.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Se agregan los servicios de la app
+builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddIdentity();
+builder.Services.AddAppServices();
+
 // db connection from appsettings
 builder.Services.AddDbContext<LamorenitaDbContext>(
     opt =>
@@ -15,25 +22,6 @@ builder.Services.AddDbContext<LamorenitaDbContext>(
         .EnableSensitiveDataLogging(true).UseLazyLoadingProxies();
     }
     );
-//Automapper profile
-builder.Services.AddSingleton(provider =>
-{
-    return new MapperConfiguration(config =>
-    {
-        config.AddProfile<AutoMapperProfile>();
-        config.ConstructServicesUsing(type =>
-        ActivatorUtilities.GetServiceOrCreateInstance(provider, type));
-    }).CreateMapper();
-});
-
-// add to call api
-builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IStoreService, StoreService>();
-builder.Services.AddScoped<IDirectionService, DirectionService>();
-builder.Services.AddScoped<IContactService, ContactService>();
-builder.Services.AddScoped<IPhoneNumberService, PhoneNumberService>();
 
 builder.Services.AddControllersWithViews();
 
@@ -45,10 +33,20 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+else
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseMiddleware<ExceptionMiddleware>();
 
 
 app.MapControllerRoute(
@@ -57,4 +55,9 @@ app.MapControllerRoute(
 
 app.MapFallbackToFile("index.html"); ;
 
+using var scope = app.Services.CreateScope();
+/*
+var db = scope.ServiceProvider.GetRequiredService<LamorenitaDbContext>();
+db.Database.Migrate();
+*/
 app.Run();

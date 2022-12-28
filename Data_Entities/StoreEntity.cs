@@ -2,7 +2,7 @@
 
 namespace Lamorenita.Data_Entities
 {
-    public class StoreEntity : CatalogEntity
+    public class StoreEntity : Catalogue
     {
         public virtual ICollection<StoreDirectionEntity>? StoreDirection { get; set; }
         public virtual ICollection<StoreManagerEntity>? StoreManager { get; set; }

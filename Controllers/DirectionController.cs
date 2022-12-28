@@ -1,9 +1,11 @@
 ﻿using Lamorenita.Models;
 using Lamorenita.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lamorenita.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DirectionController : ControllerBase

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Lamorenita.Data_Entities;
 using Lamorenita.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Lamorenita
 {
@@ -8,6 +9,8 @@ namespace Lamorenita
     {
         public AutoMapperProfile()
         {
+            SetUserMappings();
+            SetRoleMappings();
             //Product type
             CreateMap<ProductTypeEntity, ProductTypeViewModel>()
                 .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Name))
@@ -18,28 +21,6 @@ namespace Lamorenita
             CreateMap<ProductTypeCreateModel, ProductTypeEntity>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Nombre))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Descripcion));
-
-
-            //User
-            CreateMap<UserEntity, UserViewModel>()
-                .ForMember(dest => dest.Usuario, opt => opt.MapFrom(src => src.UserName))
-                .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.FirstName))
-                .ForMember(dest => dest.PrimerApellido, opt => opt.MapFrom(src => src.LastName))
-                .ForMember(dest => dest.SegundoApellido, opt => opt.MapFrom(src => src.SecondLastName))
-                .ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => src.Created))
-                .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => src.Active));
-
-            CreateMap<UserUpdateModel, UserEntity>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Usuario))
-                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Nombre))
-                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.PrimerApellido))
-                .ForMember(dest => dest.SecondLastName, opt => opt.MapFrom(src => src.SegundoApellido));
-
-            CreateMap<UserCreateModel, UserEntity>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Usuario))
-                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Nombre))
-                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.PrimerApellido))
-                .ForMember(dest => dest.SecondLastName, opt => opt.MapFrom(src => src.SegundoApellido));
 
             //Product
             CreateMap<ProductEntity, ProductViewModel>()
@@ -111,6 +92,40 @@ namespace Lamorenita
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.NumeroTelefono))
                 .ForMember(dest => dest.ContactId, opt => opt.MapFrom(src => src.ContactoId));
 
+        }
+
+
+        private void SetRoleMappings()
+        {
+            CreateMap<IdentityRole, RoleViewModel>();
+            CreateMap<IdentityRole, RoleSelectedModel>();
+            CreateMap<IdentityRole, RoleUserViewModel>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.Selected = true;
+                });
+        }
+        private void SetUserMappings()
+        {
+            CreateMap<ApplicationUser, UserViewModel>()
+                .ForMember(dest => dest.Active, opt => opt.MapFrom(src => !src.LockoutEnabled));
+            CreateMap<ApplicationUser, UserEditModel>();
+            CreateMap<UserRegisterModel, ApplicationUser>();
+            CreateMap<UserEditModel, ApplicationUser>();
+            CreateMap<ApplicationUser, UserActiveModel>()
+                .ForMember(dest => dest.Active, opt => opt.MapFrom(src => !src.LockoutEnabled));
+            CreateMap<ApplicationUser, UserFullViewModel>()
+                .ForMember(dest => dest.Active, opt => opt.MapFrom(src => !src.LockoutEnabled))
+                .AfterMap((src, dest) =>
+                {
+                    if (dest.Roles != null)
+                    {
+                        foreach (var role in dest.Roles)
+                        {
+                            role.Selected = true;
+                        }
+                    }
+                });
         }
     }
 }

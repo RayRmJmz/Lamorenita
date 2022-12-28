@@ -1,72 +1,80 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Lamorenita.Models
 {
+    public class UserRegisterModel
+    {
+        [Required]
+        [StringLength(30)]
+        public string UserName { get; set; }
+
+        [EmailAddress]
+        [StringLength(80)]
+        public string Email { get; set; }
+
+        [Required]
+        public IEnumerable<RoleSelectedModel> Roles { get; set; }
+    }
+
+    public class UserEditModel
+    {
+        [EmailAddress]
+        [StringLength(80)]
+        public string Email { get; set; }
+        [Required]
+        public IEnumerable<RoleSelectedModel> Roles { get; set; }
+    }
+
+    public class UserFullViewModel
+    {
+        public string Id { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string Tipo { get; set; }
+        public bool Active { get; set; }
+        public IEnumerable<RoleUserViewModel> Roles { get; set; }
+    }
+
     public class UserViewModel
     {
-        public int Id { get; set; }
-        public string? Usuario { get; set; }
-        // public string? Password { get; set; } // password never send to cliente
-        public string? Nombre { get; set; }
-        public string? PrimerApellido { get; set; }
-        public string? SegundoApellido { get; set; }
-        public DateTime FechaCreacion { get; set; }
-        public int Activo { get; set;}
-
+        public string Id { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public bool Active { get; set; }
     }
 
-    public class UserCreateModel
+    public class UserChangePasswordModel
     {
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [StringLength(4, MinimumLength = 4, ErrorMessage = "Longitud {0} debe ser {1}")]
-        public string? Usuario { get; set; }
-
-        [DisplayName("Contraseña")]
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        public string? Password { get; set; }
-
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Longitud {0} debe ser  máximo {1} y mínimo {2}")]
-        public string? Nombre { get; set; }
-
-        [DisplayName("Primer apellido")]
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Longitud {0} debe ser  máximo {1} y mínimo {2}")]
-        public string? PrimerApellido { get; set; }
-
-        [DisplayName("Segundo apellido")]
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Longitud {0} debe ser  máximo {1} y mínimo {2}")]
-        public string? SegundoApellido { get; set; }
+        [Required]
+        public string OldPassword { get; set; }
+        [Required]
+        public string NewPassword { get; set; }
     }
 
-    public class UserUpdateModel
+    public class UserActiveModel
     {
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [StringLength(4, MinimumLength = 4, ErrorMessage = "Longitud {0} debe ser {1}")]
-        public string? Usuario { get; set; }
-
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Longitud {0} debe ser  máximo {1} y mínimo {2}")]
-        public string? Nombre { get; set; }
-
-        [DisplayName("Primer apellido")]
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Longitud {0} debe ser  máximo {1} y mínimo {2}")]
-        public string? PrimerApellido { get; set; }
-
-        [DisplayName("Segundo apellido")]
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Longitud {0} debe ser  máximo {1} y mínimo {2}")]
-        public string? SegundoApellido { get; set; }
+        public bool Active { get; set; } = true;
     }
-
-    public class UserUpdatePasswordModel
+    public class InternalUserRegisterModel
     {
-        [DisplayName("Contraseña")]
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        public string? Password { get; set; }
+        [Required]
+        public string UserName { get; set; }
+        public string Password { get; set; }
     }
 
+    public class UserInternalModel
+    {
+        public string UserName { get; set; }
+        public string Nombre { get; set; }
+        public string Email { get; set; }
+    }
+
+    public class UserPecoLoginResponseModel
+    {
+        public string USUARIOID { get; set; }
+        public string NOMBRE { get; set; }
+        public string NOEMPLEADO { get; set; }
+        public string NIVELFIRMA { get; set; }
+        public string PUESTO { get; set; }
+    }
 }

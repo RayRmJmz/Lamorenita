@@ -2,7 +2,7 @@
 
 namespace Lamorenita.Data_Entities
 {
-    public class CatalogEntity
+    public class Catalogue
     {
         [Key]
         public int Id { get; set; }

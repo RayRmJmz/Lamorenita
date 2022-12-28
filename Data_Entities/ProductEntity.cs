@@ -2,7 +2,7 @@
 
 namespace Lamorenita.Data_Entities
 {
-    public class ProductEntity : CatalogEntity
+    public class ProductEntity : Catalogue
     {
         public int Stock { get; set; }
         public decimal Price { get; set; }

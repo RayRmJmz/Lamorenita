@@ -2,7 +2,7 @@
 
 namespace Lamorenita.Data_Entities
 {
-    public class PersonEntity
+    public class Person
     {
         [Key]
         public int Id { get; set; }
