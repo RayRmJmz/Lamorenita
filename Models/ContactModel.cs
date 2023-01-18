@@ -11,6 +11,8 @@ namespace Lamorenita.Models
         public string? SegundoApellido { get; set; }
         public DateTime FechaCreacion { get; set; }
         public int Activo { get; set; }
+
+        public IList<PhoneNumberCreateModel>? PhoneNumber { get; set; }
     }
 
     public class ContactCreateModel
@@ -29,5 +31,6 @@ namespace Lamorenita.Models
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Longitud {0} debe ser  máximo {1} y mínimo {2}")]
         public string? SegundoApellido { get; set; }
         public int activo { get; set; }
+        public PhoneNumberCreateModel[]? PhoneNumber { get; set; }  
     }
 }

@@ -20,6 +20,6 @@ namespace Lamorenita.Models
         public string? NumeroTelefono { get; set; }
         [DisplayName("Contacto")]
         [Required(ErrorMessage = "El campo {0} es requerido")]
-        public int? ContactoId { get; set; }
+        public int ContactoId { get; set; }
     }
 }

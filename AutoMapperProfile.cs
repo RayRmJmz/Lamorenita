@@ -47,13 +47,13 @@ namespace Lamorenita
                 .ForMember(dest => dest.PrimerApellido, opt => opt.MapFrom(src => src.LastName))
                 .ForMember(dest => dest.SegundoApellido, opt => opt.MapFrom(src => src.SecondLastName))
                 .ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => src.Created))
-                .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => src.Active));
+                .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => src.Active)).ReverseMap();
 
             CreateMap<ContactCreateModel, ContactEntity>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Nombre))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.PrimerApellido))
                 .ForMember(dest => dest.SecondLastName, opt => opt.MapFrom(src => src.SegundoApellido))
-                .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.activo));
+                .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.activo)).ReverseMap();
 
             //Store
             CreateMap<StoreEntity, StoreViewModel>()
@@ -86,11 +86,11 @@ namespace Lamorenita
             CreateMap<PhoneNumberEntity, PhoneNumberViewModel>()
                 .ForMember(dest => dest.NumeroTelefono, opt => opt.MapFrom(src => src.PhoneNumber))
                 .ForMember(dest => dest.ContactoId, opt => opt.MapFrom(src => src.ContactId))
-                .ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => src.Created));
+                .ForMember(dest => dest.FechaCreacion, opt => opt.MapFrom(src => src.Created)).ReverseMap();
 
             CreateMap<PhoneNumberCreateModel, PhoneNumberEntity>()
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.NumeroTelefono))
-                .ForMember(dest => dest.ContactId, opt => opt.MapFrom(src => src.ContactoId));
+                .ForMember(dest => dest.ContactId, opt => opt.MapFrom(src => src.ContactoId)).ReverseMap();
 
         }
 
